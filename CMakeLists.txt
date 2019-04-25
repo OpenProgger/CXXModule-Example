@@ -20,14 +20,14 @@ else()
 	message(FATAL_ERROR "C++20 Modules required!")
 endif()
 
-set(MODULE_FLAGS -std=c++2a -fmodules-ts -fprebuilt-module-path=${CMAKE_BINARY_DIR})
+set(MODULE_FLAGS -std=c++2a -fmodules-ts -fprebuilt-module-path=${CMAKE_BINARY_DIR} --precompile)
 
 #If a c++ module is precompiled with a file extension other than *.cppm, '-x c++-module' need to be passed to force the module compilation
 add_custom_command(
 	OUTPUT std.pcm foo.pcm foobar.pcm
-	COMMAND ${CMAKE_CXX_COMPILER} ARGS ${MODULE_FLAGS} --precompile ${CMAKE_SOURCE_DIR}/std.cppm -o ${CMAKE_BINARY_DIR}/std.pcm
-	COMMAND ${CMAKE_CXX_COMPILER} ARGS ${MODULE_FLAGS} --precompile ${CMAKE_SOURCE_DIR}/foo.cppm -o ${CMAKE_BINARY_DIR}/foo.pcm
-	COMMAND ${CMAKE_CXX_COMPILER} ARGS ${MODULE_FLAGS} --precompile -x c++-module ${CMAKE_SOURCE_DIR}/foobar.cpp -o ${CMAKE_BINARY_DIR}/foobar.pcm
+	COMMAND ${CMAKE_CXX_COMPILER} ARGS ${MODULE_FLAGS} ${CMAKE_SOURCE_DIR}/std.cppm -o ${CMAKE_BINARY_DIR}/std.pcm
+	COMMAND ${CMAKE_CXX_COMPILER} ARGS ${MODULE_FLAGS} ${CMAKE_SOURCE_DIR}/foo.cppm -o ${CMAKE_BINARY_DIR}/foo.pcm
+	COMMAND ${CMAKE_CXX_COMPILER} ARGS ${MODULE_FLAGS} -x c++-module ${CMAKE_SOURCE_DIR}/foobar.cpp -o ${CMAKE_BINARY_DIR}/foobar.pcm
 	COMMENT "Create C++ example modules"
 	VERBATIM
 	SOURCES std.cppm foo.cppm foobar.cpp
