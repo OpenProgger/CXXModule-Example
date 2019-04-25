@@ -1,4 +1,4 @@
-#C++20 Modules CMake Example
+# C++20 Modules CMake Example
 
 A test project to play with C++20 Modules.
 
